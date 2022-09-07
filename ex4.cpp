@@ -1,12 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
 
-int main()
+int main ()
 {
-    double mile , metr ;
-    printf("metr : \n");
-    scanf("%lf", &metr);
-    mile = metr * 1609;
-    printf("la distance en mile est : %lf \n", mile);
-    return 0 ;
+   double mile,meter;
+   printf("enter la distance in mile :");
+   scanf("%lf", &mile);
+   meter = mile*1609 ;
+   printf("the distance in meter is : %f " , meter);
+   
+   return 0 ;
 }
+
+ 
+ 
