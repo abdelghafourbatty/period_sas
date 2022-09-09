@@ -5,7 +5,7 @@
 int main(){
 	
 	float x;
-	printf("enter your degre :"); scanf("%lf" , &x);
+	printf("enter your degre :"); scanf("%f" , &x);
 	if(x>10){
 		printf("recale");
 	} 
