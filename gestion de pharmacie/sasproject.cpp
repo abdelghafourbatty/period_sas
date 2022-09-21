@@ -16,6 +16,8 @@ typedef struct{
     int code;
     char name[50];
     float priceTTC;
+    float totalP;
+    int soldCount;
     int date[3];
     int time[2];
 }history;
@@ -29,6 +31,7 @@ int bookCounter = 0;
 int counter = 0;
 history histor[MAX];
 Product product[MAX];
+int totalPiecesPurchased = 0;
 Product temp[1];
 
 /*-------------functions section-------------*/
@@ -73,6 +76,7 @@ int main()
                 system("cls");
                 break;
             case 2:
+            	
                 displayProducts();
                 printf("\n1. sort product");
                 printf("\n2. back to menu\n");
@@ -83,36 +87,32 @@ int main()
                     else printf("\nSomething went wrong. Please try again\n");
                 }while(q!=1 && q!=2);
                 printf("\n\nPress any key to continue.");
-                
+                system("cls");
                 break;
             case 3:
             	
                 buyProduct();
-                system("cls");
                 break; 
             case 4:
-            	
                 search();
-                system("cls");
                 break;
             case 5:
-            	
+            	system("cls");
                 storage();
-                system("cls");
+                
                 break;
                 case 6:
                 
                 deleteProduct();
-                system("cls");
                 break; 
              case 7:
-             	
+             	system("cls");
                 registerBook();
-                system("cls");
                 break;
             case 8:
+            	system("cls");
                 salesStatistics();
-                system("cls");
+                
                 break;
             default:
                 if(choice!=0) printf("\nSomething went wrong. Please try again\n");
@@ -249,38 +249,40 @@ void search(){
 }
 
 void buyProduct(){
-    int c, b;
+    int c, oldQuantity, soldCount;
     int t=0;
     system("cls");
-    printf("enter the code of product: "); scanf("%d", &c);
+    printf("\n\n\n \t \t \t \t \tenter the code of product: "); scanf("%d", &c);
     for(i=0; i<counter; i++){
         if(product[i].code == c){
-            printf("name: %s  | price including TTC: %.2f  | quantity: %d\n", product[i].name, product[i].price + (product[i].price * 0.15), product[i].quantity);
+            printf("\n \t \t \t \tname: %s  | price including TTC: %.2f  | quantity: %d\n", product[i].name,product[i].price+(product[i].price*0.15), product[i].quantity);
             t=1;
             break;
         }
     }
     if(t==1){
-        printf("enter the new quantity: "); scanf("%d", &b);
-        product[i].quantity = b;
-        printf("enter the current date of selling:\n");
-        printf("the day: "); scanf("%d", &histor[bookCounter].date[0]);
-        printf("the mounth: "); scanf("%d", &histor[bookCounter].date[1]);
-        printf("the year: "); scanf("%d", &histor[bookCounter].date[2]);
-        printf("now enter the current time of selling:\n");
-        printf("the hour: "); scanf("%d", &histor[bookCounter].time[0]);
-        printf("the minute: "); scanf("%d", &histor[bookCounter].time[1]);
-
-        strcpy(histor[bookCounter].name, product[i].name);
-        histor[bookCounter].priceTTC = product[i].price + (product[i].price * 0.15);
-        bookCounter++;
-        system("cls");
-        printf("\n\n\n\n\n\n\n\n\n\n\n\t\t\t\tyour changes has been saved successfully\n\n");
-        system("cls");
+        oldQuantity = product[i].quantity;
+        printf("\n \t \t \t \tenter the new quantity of product: "); scanf("%d", &product[i].quantity);
+        if(oldQuantity>product[i].quantity){
+            printf("\n \t \t \t \tenter the current date of selling:\n");
+            printf(" \t \t \t \tthe day: "); scanf("%d", &histor[bookCounter].date[0]);
+            printf(" \t \t \t \tthe mounth: "); scanf("%d", &histor[bookCounter].date[1]);
+            printf(" \t \t \t \tthe year: "); scanf("%d", &histor[bookCounter].date[2]);
+            printf("\n  \t \t \t \tnow enter the current time of selling:\n");
+            printf(" \t \t \t \tthe hour: "); scanf("%d", &histor[bookCounter].time[0]);
+            printf(" \t \t \t \tthe minute: "); scanf("%d", &histor[bookCounter].time[1]);
+            histor[bookCounter].soldCount = oldQuantity - product[i].quantity;
+            strcpy(histor[bookCounter].name, product[i].name);
+            histor[bookCounter].priceTTC = product[i].price+(product[i].price*0.15);
+            histor[bookCounter].totalP = histor[bookCounter].soldCount * histor[bookCounter].priceTTC;
+             totalPiecesPurchased += histor[bookCounter].soldCount;
+            bookCounter++;
+        }
     }else{
-        printf("\nthe code doesn't match any product\n");
-        printf("\nPress any key to continue.");
+        printf("\n \t \t \t \t \tthe code doesn't match any product.\n");
+        printf("\n \t \t \t \t \t \tPress any key to continue.");
         system("cls");
+
     }
 }
 
@@ -311,34 +313,33 @@ void deleteProduct(){
                 }
                 counter--;
                 system("cls");
-            } else if(c == 'n'){
+            } else if(c == 'n' || c == 'N'){
                 printf("\nPress any key to continue.");
-                system("cls");
             }
 
         }else{
             printf("\nthe code doesn't match any product\n");
             printf("\nPress any key to continue.");
-            system("cls");
+           
         }
     }
 }
 
 void salesStatistics(){
     system("cls");
+    printf("\n\n\n\n\n\n\n\n\n \t \t \t \t%d products sold this day.\n", totalPiecesPurchased);
     printf("the total prices of products sold in the current day is %.2f dh\n", totalPrice());
     printf("the average price of products sold on the current day is %.2f dh\n", averagePrice());
     printf("the Max price of products sold on the current day is %.2f dh\n", maxPrice());
     printf("the Min price of products sold in the current day is %.2f dh\n", minPrice());
     printf("\nPress any key to continue.");
-    system("cls");
 }
 
 
 float totalPrice(){
     float sum;
     for(i=0; i<bookCounter; i++){
-        sum = sum + histor[i].priceTTC;
+        sum = sum + histor[i].totalP;
     }
     return sum;
 }
@@ -346,7 +347,7 @@ float totalPrice(){
 
 float averagePrice(){
     float av;
-    av = totalPrice()/(bookCounter);
+    av = totalPrice()/(totalPiecesPurchased);
     return av;
 }
 
