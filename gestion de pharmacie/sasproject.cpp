@@ -134,12 +134,19 @@ void newProduct(){
     }while(n<1 || n>100);
 
     for(i=0; i<n; i++){
-        printf("______________________________________________________________");
-        printf("\n\nEnter the following informations of the product number %d\n\n", i+1);
-        printf("Enter the code of product: "); scanf("%d", &product[counter].code);
-        printf("Enter the name of product: "); scanf("%s", &product[counter].name);
-        printf("Enter the quantity of product: "); scanf("%d", &product[counter].quantity);
-        printf("Enter the price of product: "); scanf("%f", &product[counter].price);
+        printf("\t \t______________________________________________________________");
+        printf("\n\n \t \tEnter the following informations of the product number %d\n\n", i+1);
+        code:
+        printf(" \t \tEnter the code of product: "); scanf("%d", &product[counter].code);
+        for(i=0; i<counter; i++){
+            if(product[i].code == product[counter].code){
+                printf(" \t \tError, this code already exist\n");
+                goto code;
+            }
+        }
+        printf(" \t \tEnter the name of product: "); scanf("%s", &product[counter].name);
+        printf(" \t \tEnter the quantity of product: "); scanf("%d", &product[counter].quantity);
+        printf(" \t \tEnter the price of product: "); scanf("%f", &product[counter].price);
         counter++;
     }
 }
