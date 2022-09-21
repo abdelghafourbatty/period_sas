@@ -310,7 +310,6 @@ void deleteProduct(){
                     product[j] = product[j+1];
                 }
                 counter--;
-                system("cls");
             } else if(c == 'n' || c == 'N'){
                 printf("\nPress any key to continue.");
             }
