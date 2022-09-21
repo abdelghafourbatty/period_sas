@@ -145,7 +145,12 @@ void newProduct(){
             }
         }
         printf(" \t \tEnter the name of product: "); scanf("%s", &product[counter].name);
+        quantity:
         printf(" \t \tEnter the quantity of product: "); scanf("%d", &product[counter].quantity);
+        if(product[counter].quantity<0){
+        	printf("\t \tError , this code is negative");
+        	goto quantity;
+		}
         printf(" \t \tEnter the price of product: "); scanf("%f", &product[counter].price);
         counter++;
     }
