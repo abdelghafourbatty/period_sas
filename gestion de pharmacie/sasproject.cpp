@@ -76,7 +76,6 @@ int main()
                 system("cls");
                 break;
             case 2:
-            	
                 displayProducts();
                 printf("\n1. sort product");
                 printf("\n2. back to menu\n");
@@ -87,7 +86,6 @@ int main()
                     else printf("\nSomething went wrong. Please try again\n");
                 }while(q!=1 && q!=2);
                 printf("\n\nPress any key to continue.");
-                system("cls");
                 break;
             case 3:
             	
@@ -280,8 +278,8 @@ void buyProduct(){
         }
     }else{
         printf("\n \t \t \t \t \tthe code doesn't match any product.\n");
-        printf("\n \t \t \t \t \t \tPress any key to continue.");
-        system("cls");
+        printf("\n \t \t \t \t \tPress any key to continue.");
+        
 
     }
 }
